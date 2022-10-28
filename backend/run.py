@@ -34,10 +34,10 @@ async def websocket_endpoint(websocket: WebSocket):
             resp = {'value': value, 'means': means, 'cal_time':cal_time}
             await asyncio.sleep(1)
             await websocket.send_json(resp)
-            print(index, value_num, value, values, means, cal_time)
+            print(f'index:{index}, value_num:{value_num}, value:{value}, values:{values}, means:{means}, cal_time:{cal_time}')
             index += 1
             if index >= 30: break
-            
+
         except Exception as e:
             print('error:', e)
             break
