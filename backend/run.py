@@ -17,20 +17,27 @@ async def websocket_endpoint(websocket: WebSocket):
     print('a new websocket to create for 30 seconds.')
     await websocket.accept()
     index = 0
+    values = 0
     while True:
         try:
             
             # Wait for any message from the client
-            await websocket.receive_text()
+            # await websocket.receive_text()
             # Send message to the client
-            # await asyncio.sleep(1)
-            # value = random.uniform(0, 1)
+            await asyncio.sleep(1)
+            
             value = measurements[index]['value']
-            print(value, index)
-            resp = {'value': value}
+            value_num = index + 1
+            values += value
+            means = values / value_num
+            cal_time = random.uniform(3, 4)
+            resp = {'value': value, 'means': means, 'cal_time':cal_time}
+            await asyncio.sleep(1)
             await websocket.send_json(resp)
+            print(index, value_num, value, values, means, cal_time)
             index += 1
             if index >= 30: break
+            
         except Exception as e:
             print('error:', e)
             break
@@ -64,11 +71,11 @@ async def websocket_endpoint(websocket: WebSocket):
             # tac_time = time.time() - start
 
             value = measurements[index]['value']
-            print(value, index)
+            print(value)
 
 
             resp = {'value': value}
-            # await asyncio.sleep(1)
+            await asyncio.sleep(1)
             await websocket.send_json(resp)
             index += 1
             if index >= 60: break
