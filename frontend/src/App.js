@@ -6,13 +6,13 @@ class App extends React.Component {
   state = { data: [], count: 0 };
 
   componentDidMount() {
-    const ws = new WebSocket("ws://localhost:8000/start-timelapse/60");
+    const ws = new WebSocket("ws://localhost:8000/start-timelapse/30");
     ws.onmessage = this.onMessage;
 
     this.setState({
       ws: ws,
       // Create an interval to send echo messages to the server(to keep the connection alive)
-      interval: setInterval(() => ws.send("echo"), 1000),
+      // interval: setInterval(() => ws.send("echo"), 1000),
     });
   }
 
